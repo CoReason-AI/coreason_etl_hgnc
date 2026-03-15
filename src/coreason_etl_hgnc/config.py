@@ -2,7 +2,7 @@ from pydantic import HttpUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class Settings(BaseSettings):  # type: ignore[misc]
+class Settings(BaseSettings):
     hgnc_json_url: HttpUrl = HttpUrl(
         "https://storage.googleapis.com/public-download-files/hgnc/json/json/hgnc_complete_set.json"
     )
