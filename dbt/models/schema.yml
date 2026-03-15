@@ -1,9 +1,20 @@
 version: 2
 
+sources:
+  - name: bronze_hgnc
+    schema: public
+    tables:
+      - name: bronze_hgnc_genes_raw
+
 models:
   - name: silver_hgnc_genes
     description: "Silver layer HGNC genes model"
     columns:
+      - name: coreason_id
+        description: "UUID generated from HGNC ID"
+        tests:
+          - unique
+          - not_null
       - name: hgnc_id
         description: "The primary HGNC ID for the gene."
         tests:
