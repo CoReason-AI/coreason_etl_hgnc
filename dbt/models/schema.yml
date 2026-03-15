@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: silver_hgnc_genes
+    description: "Silver layer HGNC genes model"
+    columns:
+      - name: hgnc_id
+        description: "The primary HGNC ID for the gene."
+        tests:
+          - unique
+          - not_null
+      - name: approved_symbol
+        description: "The approved symbol for the gene."
+        tests:
+          - not_null
