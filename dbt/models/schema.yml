@@ -24,3 +24,21 @@ models:
         description: "The approved symbol for the gene."
         tests:
           - not_null
+
+  - name: gold_hgnc_master_index
+    description: "Gold layer model containing all approved HGNC genes."
+    columns:
+      - name: coreason_id
+        description: "UUID generated from HGNC ID"
+        tests:
+          - unique
+          - not_null
+      - name: hgnc_id
+        description: "The primary HGNC ID for the gene."
+        tests:
+          - unique
+          - not_null
+      - name: approved_symbol
+        description: "The approved symbol for the gene."
+        tests:
+          - not_null
