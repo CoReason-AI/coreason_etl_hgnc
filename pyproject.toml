@@ -12,6 +12,7 @@ authors = [
     { name = "Akshaya M", email = "akshaya.movvar@coreason-ai" },
 ]
 dependencies = [
+    "dbt-postgres>=1.10.0",
     "dlt>=1.0.0",
     "ijson>=3.5.0",
     "loguru>=0.7.2",
@@ -65,6 +66,9 @@ target-version = "py314"
 [tool.ruff.lint]
 select = ["E", "F", "B", "I", "UP", "SIM", "RUF", "ARG", "C4", "PT", "TCH", "FA", "PIE", "RET", "PERF", "FURB", "LOG", "N", "A", "S"]
 ignore = ["S101", "TC001", "TC002", "TC003", "UP037"]
+
+[tool.deptry.per_rule_ignores]
+DEP002 = ["dbt-postgres"]
 
 [tool.mypy]
 python_version = "3.14"
