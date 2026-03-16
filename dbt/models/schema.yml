@@ -27,6 +27,18 @@ models:
       - name: omim_ids_raw
         description: "Array of OMIM IDs associated with the gene."
 
+  - name: gold_hgnc_omim_map
+    description: "Gold layer model mapping OMIM IDs to HGNC IDs."
+    columns:
+      - name: hgnc_id
+        description: "The primary HGNC ID for the gene."
+        tests:
+          - not_null
+      - name: omim_id
+        description: "The OMIM ID associated with the gene."
+        tests:
+          - not_null
+
   - name: gold_hgnc_synonym_map
     description: "Gold layer model mapping synonyms to HGNC IDs."
     columns:
