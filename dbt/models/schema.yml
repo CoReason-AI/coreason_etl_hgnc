@@ -25,6 +25,22 @@ models:
         tests:
           - not_null
 
+  - name: gold_hgnc_synonym_map
+    description: "Gold layer model mapping synonyms to HGNC IDs."
+    columns:
+      - name: hgnc_id
+        description: "The primary HGNC ID for the gene."
+        tests:
+          - not_null
+      - name: search_term
+        description: "The search term (symbol, alias, or previous symbol)."
+        tests:
+          - not_null
+      - name: term_type
+        description: "The type of the search term ('Approved', 'Alias', 'Previous')."
+        tests:
+          - not_null
+
   - name: gold_hgnc_master_index
     description: "Gold layer model containing all approved HGNC genes."
     columns:
