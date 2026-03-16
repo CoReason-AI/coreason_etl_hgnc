@@ -18,7 +18,7 @@ from coreason_etl_hgnc.ingest import stream_hgnc_json
 from coreason_etl_hgnc.utils.logger import logger
 
 
-@dlt.resource(  # type: ignore[misc]
+@dlt.resource(  # type: ignore[misc, unused-ignore]
     name="bronze_hgnc_genes_raw",
     write_disposition="replace",
 )
@@ -35,7 +35,7 @@ def hgnc_resource() -> Any:
         }
 
 
-@dlt.source(max_table_nesting=0)  # type: ignore[misc]
+@dlt.source(max_table_nesting=0)  # type: ignore[misc, unused-ignore]
 def hgnc_source() -> Any:
     """Source configuration for HGNC genes ingestion.
 
