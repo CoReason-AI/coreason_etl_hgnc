@@ -6,6 +6,7 @@ SELECT
     locus_type,
     ensembl_id,
     ncbi_entrez_id,
-    uniprot_ids_raw
+    uniprot_ids_raw,
+    omim_ids_raw
 FROM {{ ref('silver_hgnc_genes') }}
 WHERE status = 'Approved'

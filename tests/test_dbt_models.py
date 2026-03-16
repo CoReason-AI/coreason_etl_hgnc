@@ -41,6 +41,7 @@ def test_silver_hgnc_genes_sql_content() -> None:
 
     # Check for expected JSON -> JSONB operators (->)
     assert "raw_data->'uniprot_ids' AS uniprot_ids_raw" in sql_content
+    assert "raw_data->'omim_id' AS omim_ids_raw" in sql_content
     assert "raw_data->'alias_symbol' AS alias_symbols_raw" in sql_content
     assert "raw_data->'prev_symbol' AS prev_symbols_raw" in sql_content
 
@@ -70,6 +71,7 @@ def test_gold_hgnc_master_index_sql_content() -> None:
     assert "ensembl_id" in sql_content
     assert "ncbi_entrez_id" in sql_content
     assert "uniprot_ids_raw" in sql_content
+    assert "omim_ids_raw" in sql_content
 
 
 def test_dbt_schema_updates_for_silver() -> None:
