@@ -107,6 +107,8 @@ def test_dbt_schema_updates_for_silver() -> None:
     assert "approved_symbol" in columns
     assert "not_null" in columns["approved_symbol"]["tests"]
 
+    assert "omim_ids_raw" in columns
+
 
 def test_gold_hgnc_synonym_map_sql_content() -> None:
     """Verifies that gold_hgnc_synonym_map.sql exists and contains expected SQL constructs."""
@@ -180,3 +182,5 @@ def test_dbt_schema_updates_for_gold() -> None:
 
     assert "approved_symbol" in columns
     assert "not_null" in columns["approved_symbol"]["tests"]
+
+    assert "omim_ids_raw" in columns
