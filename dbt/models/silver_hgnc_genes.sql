@@ -16,6 +16,7 @@ SELECT
     raw_data->>'ensembl_gene_id' AS ensembl_id,
     raw_data->>'entrez_id' AS ncbi_entrez_id,
     raw_data->'uniprot_ids' AS uniprot_ids_raw,
+    raw_data->'omim_id' AS omim_ids_raw,
     raw_data->'alias_symbol' AS alias_symbols_raw,
     raw_data->'prev_symbol' AS prev_symbols_raw,
     md5(raw_data::text) AS content_hash,
