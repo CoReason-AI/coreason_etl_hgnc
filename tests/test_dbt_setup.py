@@ -40,7 +40,7 @@ def test_dbt_schema_data_tests() -> None:
         schema = yaml.safe_load(f)
 
     models = schema.get("models", [])
-    assert len(models) == 2
+    assert len(models) == 3
 
     model = models[0]
     assert model["name"] == "silver_hgnc_genes"
@@ -60,7 +60,7 @@ def test_dbt_schema_data_tests() -> None:
     assert "not_null" in columns["approved_symbol"]["tests"]
 
     # Gold model tests
-    model_gold = models[1]
+    model_gold = models[2]
     assert model_gold["name"] == "gold_hgnc_master_index"
 
     columns_gold = {col["name"]: col for col in model_gold.get("columns", [])}
