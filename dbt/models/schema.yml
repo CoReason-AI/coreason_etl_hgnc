@@ -24,6 +24,8 @@ models:
         description: "The approved symbol for the gene."
         tests:
           - not_null
+      - name: omim_ids_raw
+        description: "Array of OMIM IDs associated with the gene."
 
   - name: gold_hgnc_synonym_map
     description: "Gold layer model mapping synonyms to HGNC IDs."
@@ -58,3 +60,5 @@ models:
         description: "The approved symbol for the gene."
         tests:
           - not_null
+      - name: omim_ids_raw
+        description: "Array of OMIM IDs associated with the gene."
