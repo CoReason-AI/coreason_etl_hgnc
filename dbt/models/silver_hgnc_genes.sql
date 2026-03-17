@@ -1,13 +1,16 @@
 {{ config(pre_hook='CREATE EXTENSION IF NOT EXISTS "uuid-ossp";') }}
 
-WITH raw AS (
+WITH constants AS (
+    SELECT '106ebc37-142c-47db-a228-db629f1d07c0'::uuid AS NAMESPACE_HGNC
+),
+raw AS (
     SELECT
         ingestion_ts,
         raw_data
     FROM {{ source('bronze_hgnc', 'bronze_hgnc_genes_raw') }}
 )
 SELECT
-    uuid_generate_v5('106ebc37-142c-47db-a228-db629f1d07c0'::uuid, raw_data->>'hgnc_id') AS coreason_id,
+    uuid_generate_v5(constants.NAMESPACE_HGNC, raw_data->>'hgnc_id') AS coreason_id,
     raw_data->>'hgnc_id' AS hgnc_id,
     raw_data->>'symbol' AS approved_symbol,
     raw_data->>'name' AS approved_name,
@@ -22,3 +25,4 @@ SELECT
     md5(raw_data::text) AS content_hash,
     ingestion_ts
 FROM raw
+CROSS JOIN constants
