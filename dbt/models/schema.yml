@@ -24,8 +24,26 @@ models:
         description: "The approved symbol for the gene."
         tests:
           - not_null
+      - name: approved_name
+        description: "The approved name for the gene."
+      - name: status
+        description: "The status of the gene."
+      - name: locus_type
+        description: "The locus type of the gene."
+      - name: ensembl_id
+        description: "The Ensembl ID associated with the gene."
+      - name: ncbi_entrez_id
+        description: "The NCBI Entrez ID associated with the gene."
+      - name: uniprot_ids_raw
+        description: "Array of protein IDs associated with the gene."
       - name: omim_ids_raw
         description: "Array of OMIM IDs associated with the gene."
+      - name: alias_symbols_raw
+        description: "Array of synonyms for the gene."
+      - name: prev_symbols_raw
+        description: "Array of old symbols for the gene."
+      - name: content_hash
+        description: "MD5 hash of the raw JSON object."
 
   - name: gold_hgnc_omim_map
     description: "Gold layer model mapping OMIM IDs to HGNC IDs."
