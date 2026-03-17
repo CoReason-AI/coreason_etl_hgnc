@@ -108,7 +108,16 @@ def test_dbt_schema_updates_for_silver() -> None:
     assert "approved_symbol" in columns
     assert "not_null" in columns["approved_symbol"]["tests"]
 
+    assert "approved_name" in columns
+    assert "status" in columns
+    assert "locus_type" in columns
+    assert "ensembl_id" in columns
+    assert "ncbi_entrez_id" in columns
+    assert "uniprot_ids_raw" in columns
     assert "omim_ids_raw" in columns
+    assert "alias_symbols_raw" in columns
+    assert "prev_symbols_raw" in columns
+    assert "content_hash" in columns
 
 
 def test_gold_hgnc_synonym_map_sql_content() -> None:
