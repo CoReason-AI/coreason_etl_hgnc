@@ -23,11 +23,12 @@ def test_silver_hgnc_genes_sql_content() -> None:
     # Check for correct Postgres extension
     assert 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";' in sql_content
 
+    # Check for CTE holding hardcoded UUID constant NAMESPACE_HGNC
+    assert "AS NAMESPACE_HGNC" in sql_content
+    assert "'106ebc37-142c-47db-a228-db629f1d07c0'::uuid" in sql_content
+
     # Check for core identifiers extraction
-    assert (
-        "uuid_generate_v5('106ebc37-142c-47db-a228-db629f1d07c0'::uuid, raw_data->>'hgnc_id') AS coreason_id"
-        in sql_content
-    )
+    assert "uuid_generate_v5(constants.NAMESPACE_HGNC, raw_data->>'hgnc_id') AS coreason_id" in sql_content
     assert "md5(raw_data::text) AS content_hash" in sql_content
 
     # Check for expected JSON -> text operators (->>)
