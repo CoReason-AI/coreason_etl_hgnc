@@ -8,9 +8,32 @@
 #
 # Source Code: https://github.com/CoReason-AI/coreason_etl_hgnc
 
+from coreason_etl_hgnc.pipeline import run_pipeline
 from coreason_etl_hgnc.utils.logger import logger
 
 
-def hello_world() -> str:
-    logger.info("Hello World!")
-    return "Hello World!"
+class HgncIngestionIntent:
+    """Execution intent to run the HGNC ingestion pipeline.
+
+    AGENT INSTRUCTION:
+    This class adheres to the Strict Lexical Architecture by representing an actionable
+    intent to trigger the dlt pipeline.
+    """
+
+    def __init__(self) -> None:
+        """Initializes the HgncIngestionIntent."""
+
+    def execute(self) -> None:
+        """Executes the pipeline."""
+        logger.info("Executing HgncIngestionIntent")
+        run_pipeline()
+
+
+def main() -> None:
+    """Main entry point."""
+    intent = HgncIngestionIntent()
+    intent.execute()
+
+
+if __name__ == "__main__":
+    main()  # pragma: no cover
