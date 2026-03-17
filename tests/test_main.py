@@ -8,8 +8,26 @@
 #
 # Source Code: https://github.com/CoReason-AI/coreason_etl_hgnc
 
-from coreason_etl_hgnc.main import hello_world
+
+from pytest_mock import MockerFixture
+
+from coreason_etl_hgnc.main import HgncIngestionIntent, main
 
 
-def test_hello_world() -> None:
-    assert hello_world() == "Hello World!"
+def test_hgnc_ingestion_intent_execute(mocker: MockerFixture) -> None:
+    """Verifies that HgncIngestionIntent executes the pipeline."""
+    mock_run_pipeline = mocker.patch("coreason_etl_hgnc.main.run_pipeline")
+    mock_logger = mocker.patch("coreason_etl_hgnc.main.logger")
+
+    intent = HgncIngestionIntent()
+    intent.execute()
+
+    mock_run_pipeline.assert_called_once()
+    mock_logger.info.assert_called_with("Executing HgncIngestionIntent")
+
+
+def test_main(mocker: MockerFixture) -> None:
+    """Verifies that the main entry point works correctly."""
+    mock_execute = mocker.patch.object(HgncIngestionIntent, "execute")
+    main()
+    mock_execute.assert_called_once()
