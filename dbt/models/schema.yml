@@ -85,6 +85,18 @@ models:
         tests:
           - not_null
 
+  - name: gold_hgnc_ensembl_map
+    description: "Gold layer model mapping Ensembl IDs to HGNC IDs."
+    columns:
+      - name: hgnc_id
+        description: "The primary HGNC ID for the gene."
+        tests:
+          - not_null
+      - name: ensembl_id
+        description: "The Ensembl ID associated with the gene."
+        tests:
+          - not_null
+
   - name: gold_hgnc_master_index
     description: "Gold layer model containing all approved HGNC genes."
     columns:
