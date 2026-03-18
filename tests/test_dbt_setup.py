@@ -40,7 +40,7 @@ def test_dbt_schema_data_tests() -> None:
         schema = yaml.safe_load(f)
 
     models = schema.get("models", [])
-    assert len(models) == 5
+    assert len(models) == 6
 
     model = next(m for m in models if m["name"] == "silver_hgnc_genes")
 
