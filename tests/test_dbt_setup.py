@@ -42,7 +42,7 @@ def test_dbt_schema_data_tests() -> None:
     models = schema.get("models", [])
     assert len(models) == 6
 
-    model = next(m for m in models if m["name"] == "silver_hgnc_genes")
+    model = next(m for m in models if m["name"] == "coreason_etl_hgnc_silver_hgnc_genes")
 
     columns = {col["name"]: col for col in model.get("columns", [])}
 
@@ -59,7 +59,7 @@ def test_dbt_schema_data_tests() -> None:
     assert "not_null" in columns["approved_symbol"]["tests"]
 
     # Gold model tests
-    model_gold = next(m for m in models if m["name"] == "gold_hgnc_master_index")
+    model_gold = next(m for m in models if m["name"] == "coreason_etl_hgnc_gold_hgnc_master_index")
 
     columns_gold = {col["name"]: col for col in model_gold.get("columns", [])}
 

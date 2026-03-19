@@ -1,13 +1,13 @@
 version: 2
 
 sources:
-  - name: bronze_hgnc
-    schema: public
+  - name: bronze
+    schema: bronze
     tables:
-      - name: bronze_hgnc_genes_raw
+      - name: coreason_etl_hgnc_bronze_hgnc_genes_raw
 
 models:
-  - name: silver_hgnc_genes
+  - name: coreason_etl_hgnc_silver_hgnc_genes
     description: "Silver layer HGNC genes model"
     columns:
       - name: coreason_id
@@ -45,7 +45,7 @@ models:
       - name: content_hash
         description: "MD5 hash of the raw JSON object."
 
-  - name: gold_hgnc_omim_map
+  - name: coreason_etl_hgnc_gold_hgnc_omim_map
     description: "Gold layer model mapping OMIM IDs to HGNC IDs."
     columns:
       - name: hgnc_id
@@ -57,7 +57,7 @@ models:
         tests:
           - not_null
 
-  - name: gold_hgnc_uniprot_map
+  - name: coreason_etl_hgnc_gold_hgnc_uniprot_map
     description: "Gold layer model mapping UniProt IDs to HGNC IDs."
     columns:
       - name: hgnc_id
@@ -69,7 +69,7 @@ models:
         tests:
           - not_null
 
-  - name: gold_hgnc_synonym_map
+  - name: coreason_etl_hgnc_gold_hgnc_synonym_map
     description: "Gold layer model mapping synonyms to HGNC IDs."
     columns:
       - name: hgnc_id
@@ -85,7 +85,7 @@ models:
         tests:
           - not_null
 
-  - name: gold_hgnc_ensembl_map
+  - name: coreason_etl_hgnc_gold_hgnc_ensembl_map
     description: "Gold layer model mapping Ensembl IDs to HGNC IDs."
     columns:
       - name: hgnc_id
@@ -97,7 +97,7 @@ models:
         tests:
           - not_null
 
-  - name: gold_hgnc_master_index
+  - name: coreason_etl_hgnc_gold_hgnc_master_index
     description: "Gold layer model containing all approved HGNC genes."
     columns:
       - name: coreason_id

@@ -2,7 +2,7 @@ WITH base AS (
     SELECT
         hgnc_id,
         omim_ids_raw
-    FROM {{ ref('silver_hgnc_genes') }}
+    FROM {{ ref('coreason_etl_hgnc_silver_hgnc_genes') }}
 )
 SELECT
     b.hgnc_id,
