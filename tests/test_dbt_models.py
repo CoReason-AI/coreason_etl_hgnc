@@ -14,8 +14,8 @@ import yaml
 
 
 def test_silver_hgnc_genes_sql_content() -> None:
-    """Verifies that silver_hgnc_genes.sql exists and contains expected SQL constructs."""
-    sql_path = Path("dbt/models/silver_hgnc_genes.sql")
+    """Verifies that the silver model exists and contains expected SQL constructs."""
+    sql_path = Path("dbt/models/silver/coreason_etl_hgnc_silver_hgnc_genes.sql")
     assert sql_path.exists()
 
     sql_content = sql_path.read_text()
@@ -47,18 +47,18 @@ def test_silver_hgnc_genes_sql_content() -> None:
     assert "raw_data->'prev_symbol' AS prev_symbols_raw" in sql_content
 
     # Check source table
-    assert "source('bronze_hgnc', 'bronze_hgnc_genes_raw')" in sql_content
+    assert "source('bronze', 'coreason_etl_hgnc_bronze_hgnc_genes_raw')" in sql_content
 
 
 def test_gold_hgnc_master_index_sql_content() -> None:
-    """Verifies that gold_hgnc_master_index.sql exists and contains expected SQL constructs."""
-    sql_path = Path("dbt/models/gold_hgnc_master_index.sql")
+    """Verifies that the master index sql exists and contains expected SQL constructs."""
+    sql_path = Path("dbt/models/gold/coreason_etl_hgnc_gold_hgnc_master_index.sql")
     assert sql_path.exists()
 
     sql_content = sql_path.read_text()
 
     # Check source reference
-    assert "ref('silver_hgnc_genes')" in sql_content
+    assert "ref('coreason_etl_hgnc_silver_hgnc_genes')" in sql_content
 
     # Check filtering logic
     assert "WHERE status = 'Approved'" in sql_content
@@ -86,13 +86,13 @@ def test_dbt_schema_updates_for_silver() -> None:
     # Validate source presence
     sources = schema.get("sources", [])
     assert len(sources) > 0
-    bronze_source = next((s for s in sources if s["name"] == "bronze_hgnc"), None)
+    bronze_source = next((s for s in sources if s["name"] == "bronze"), None)
     assert bronze_source is not None
-    assert any(t["name"] == "bronze_hgnc_genes_raw" for t in bronze_source.get("tables", []))
+    assert any(t["name"] == "coreason_etl_hgnc_bronze_hgnc_genes_raw" for t in bronze_source.get("tables", []))
 
     # Validate model fields
     models = schema.get("models", [])
-    model = next((m for m in models if m["name"] == "silver_hgnc_genes"), None)
+    model = next((m for m in models if m["name"] == "coreason_etl_hgnc_silver_hgnc_genes"), None)
     assert model is not None
 
     columns = {col["name"]: col for col in model.get("columns", [])}
@@ -121,14 +121,14 @@ def test_dbt_schema_updates_for_silver() -> None:
 
 
 def test_gold_hgnc_synonym_map_sql_content() -> None:
-    """Verifies that gold_hgnc_synonym_map.sql exists and contains expected SQL constructs."""
-    sql_path = Path("dbt/models/gold_hgnc_synonym_map.sql")
+    """Verifies that the synonym map sql exists and contains expected SQL constructs."""
+    sql_path = Path("dbt/models/gold/coreason_etl_hgnc_gold_hgnc_synonym_map.sql")
     assert sql_path.exists()
 
     sql_content = sql_path.read_text()
 
     # Check source reference
-    assert "ref('silver_hgnc_genes')" in sql_content
+    assert "ref('coreason_etl_hgnc_silver_hgnc_genes')" in sql_content
 
     # Check JSON unnesting
     assert "jsonb_array_elements_text" in sql_content
@@ -143,28 +143,28 @@ def test_gold_hgnc_synonym_map_sql_content() -> None:
 
 
 def test_gold_hgnc_ensembl_map_sql_content() -> None:
-    """Verifies that gold_hgnc_ensembl_map.sql exists and contains expected SQL constructs."""
-    sql_path = Path("dbt/models/gold_hgnc_ensembl_map.sql")
+    """Verifies that the ensembl map sql exists and contains expected SQL constructs."""
+    sql_path = Path("dbt/models/gold/coreason_etl_hgnc_gold_hgnc_ensembl_map.sql")
     assert sql_path.exists()
 
     sql_content = sql_path.read_text()
 
     # Check source reference
-    assert "ref('silver_hgnc_genes')" in sql_content
+    assert "ref('coreason_etl_hgnc_silver_hgnc_genes')" in sql_content
 
     # Check non-null filtering
     assert "WHERE ensembl_id IS NOT NULL" in sql_content
 
 
 def test_gold_hgnc_uniprot_map_sql_content() -> None:
-    """Verifies that gold_hgnc_uniprot_map.sql exists and contains expected SQL constructs."""
-    sql_path = Path("dbt/models/gold_hgnc_uniprot_map.sql")
+    """Verifies that the uniprot map sql exists and contains expected SQL constructs."""
+    sql_path = Path("dbt/models/gold/coreason_etl_hgnc_gold_hgnc_uniprot_map.sql")
     assert sql_path.exists()
 
     sql_content = sql_path.read_text()
 
     # Check source reference
-    assert "ref('silver_hgnc_genes')" in sql_content
+    assert "ref('coreason_etl_hgnc_silver_hgnc_genes')" in sql_content
 
     # Check JSON unnesting
     assert "jsonb_array_elements_text" in sql_content
@@ -172,14 +172,14 @@ def test_gold_hgnc_uniprot_map_sql_content() -> None:
 
 
 def test_gold_hgnc_omim_map_sql_content() -> None:
-    """Verifies that gold_hgnc_omim_map.sql exists and contains expected SQL constructs."""
-    sql_path = Path("dbt/models/gold_hgnc_omim_map.sql")
+    """Verifies that the omim map sql exists and contains expected SQL constructs."""
+    sql_path = Path("dbt/models/gold/coreason_etl_hgnc_gold_hgnc_omim_map.sql")
     assert sql_path.exists()
 
     sql_content = sql_path.read_text()
 
     # Check source reference
-    assert "ref('silver_hgnc_genes')" in sql_content
+    assert "ref('coreason_etl_hgnc_silver_hgnc_genes')" in sql_content
 
     # Check JSON unnesting
     assert "jsonb_array_elements_text" in sql_content
@@ -196,7 +196,7 @@ def test_dbt_schema_updates_for_uniprot_map() -> None:
 
     # Validate model fields
     models = schema.get("models", [])
-    model = next((m for m in models if m["name"] == "gold_hgnc_uniprot_map"), None)
+    model = next((m for m in models if m["name"] == "coreason_etl_hgnc_gold_hgnc_uniprot_map"), None)
     assert model is not None
 
     columns = {col["name"]: col for col in model.get("columns", [])}
@@ -218,7 +218,7 @@ def test_dbt_schema_updates_for_omim_map() -> None:
 
     # Validate model fields
     models = schema.get("models", [])
-    model = next((m for m in models if m["name"] == "gold_hgnc_omim_map"), None)
+    model = next((m for m in models if m["name"] == "coreason_etl_hgnc_gold_hgnc_omim_map"), None)
     assert model is not None
 
     columns = {col["name"]: col for col in model.get("columns", [])}
@@ -240,7 +240,7 @@ def test_dbt_schema_updates_for_ensembl_map() -> None:
 
     # Validate model fields
     models = schema.get("models", [])
-    model = next((m for m in models if m["name"] == "gold_hgnc_ensembl_map"), None)
+    model = next((m for m in models if m["name"] == "coreason_etl_hgnc_gold_hgnc_ensembl_map"), None)
     assert model is not None
 
     columns = {col["name"]: col for col in model.get("columns", [])}
@@ -262,7 +262,7 @@ def test_dbt_schema_updates_for_synonym_map() -> None:
 
     # Validate model fields
     models = schema.get("models", [])
-    model = next((m for m in models if m["name"] == "gold_hgnc_synonym_map"), None)
+    model = next((m for m in models if m["name"] == "coreason_etl_hgnc_gold_hgnc_synonym_map"), None)
     assert model is not None
 
     columns = {col["name"]: col for col in model.get("columns", [])}
@@ -287,7 +287,7 @@ def test_dbt_schema_updates_for_gold() -> None:
 
     # Validate model fields
     models = schema.get("models", [])
-    model = next((m for m in models if m["name"] == "gold_hgnc_master_index"), None)
+    model = next((m for m in models if m["name"] == "coreason_etl_hgnc_gold_hgnc_master_index"), None)
     assert model is not None
 
     columns = {col["name"]: col for col in model.get("columns", [])}

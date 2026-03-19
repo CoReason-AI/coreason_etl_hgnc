@@ -45,8 +45,8 @@ def test_hgnc_source_max_table_nesting() -> None:
     # Assert
     # Verify that the max_table_nesting config is set to 0
     assert source.max_table_nesting == 0
-    # The source should contain the 'bronze_hgnc_genes_raw' resource
-    assert "bronze_hgnc_genes_raw" in source.resources
+    # The source should contain the 'coreason_etl_hgnc_bronze_hgnc_genes_raw' resource
+    assert "coreason_etl_hgnc_bronze_hgnc_genes_raw" in source.resources
 
 
 def test_run_pipeline(mocker: MockerFixture) -> None:
@@ -88,7 +88,7 @@ def test_run_pipeline_default_args(mocker: MockerFixture) -> None:
     mock_dlt_pipeline.assert_called_once_with(
         pipeline_name="hgnc_pipeline",
         destination="postgres",
-        dataset_name="bronze_hgnc",
+        dataset_name="bronze",
     )
     mock_hgnc_source.assert_called_once()
     mock_pipeline_run.assert_called_once_with("SourceMock")

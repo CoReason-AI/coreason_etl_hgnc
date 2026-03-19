@@ -7,7 +7,7 @@ raw AS (
     SELECT
         ingestion_ts,
         raw_data
-    FROM {{ source('bronze_hgnc', 'bronze_hgnc_genes_raw') }}
+    FROM {{ source('bronze', 'coreason_etl_hgnc_bronze_hgnc_genes_raw') }}
 )
 SELECT
     uuid_generate_v5(constants.NAMESPACE_HGNC, raw_data->>'hgnc_id') AS coreason_id,
