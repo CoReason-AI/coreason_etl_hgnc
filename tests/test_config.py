@@ -1,5 +1,3 @@
-import os
-
 import pytest
 from hypothesis import given
 from hypothesis import strategies as st
@@ -22,17 +20,9 @@ def test_settings_default() -> None:
         lambda u: str(Url(u))
     )
 )
-def test_settings_env_override_hypothesis(test_url: str) -> None:
-    original = os.environ.get("COREASON_ETL_HGNC_HGNC_JSON_URL")
-    os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"] = test_url
-    try:
-        settings = Settings()
-        assert str(settings.hgnc_json_url) == test_url
-    finally:
-        if original is None:
-            del os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"]
-        else:
-            os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"] = original
+def test_settings_override_hypothesis(test_url: str) -> None:
+    settings = Settings(hgnc_json_url=test_url)
+    assert str(settings.hgnc_json_url) == test_url
 
 
 @given(  # type: ignore[misc, unused-ignore]
@@ -41,16 +31,8 @@ def test_settings_env_override_hypothesis(test_url: str) -> None:
     )
 )
 def test_settings_invalid_url_hypothesis(test_url: str) -> None:
-    original = os.environ.get("COREASON_ETL_HGNC_HGNC_JSON_URL")
-    os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"] = test_url
-    try:
-        with pytest.raises(ValidationError):
-            Settings()
-    finally:
-        if original is None:
-            del os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"]
-        else:
-            os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"] = original
+    with pytest.raises(ValidationError):
+        Settings(hgnc_json_url=test_url)
 
 
 @given(  # type: ignore[misc, unused-ignore]
@@ -60,29 +42,13 @@ def test_settings_invalid_url_hypothesis(test_url: str) -> None:
     ).map(lambda u: str(Url(u)))
 )
 def test_settings_complex_url_hypothesis(test_url: str) -> None:
-    original = os.environ.get("COREASON_ETL_HGNC_HGNC_JSON_URL")
-    os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"] = test_url
-    try:
-        settings = Settings()
-        assert str(settings.hgnc_json_url) == test_url
-    finally:
-        if original is None:
-            del os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"]
-        else:
-            os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"] = original
+    settings = Settings(hgnc_json_url=test_url)
+    assert str(settings.hgnc_json_url) == test_url
 
 
 def test_settings_empty_url() -> None:
-    original = os.environ.get("COREASON_ETL_HGNC_HGNC_JSON_URL")
-    os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"] = ""
-    try:
-        with pytest.raises(ValidationError):
-            Settings()
-    finally:
-        if original is None:
-            del os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"]
-        else:
-            os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"] = original
+    with pytest.raises(ValidationError):
+        Settings(hgnc_json_url="")
 
 
 @given(  # type: ignore[misc, unused-ignore]
@@ -91,13 +57,5 @@ def test_settings_empty_url() -> None:
     )
 )
 def test_settings_whitespace_url_hypothesis(test_url: str) -> None:
-    original = os.environ.get("COREASON_ETL_HGNC_HGNC_JSON_URL")
-    os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"] = test_url
-    try:
-        settings = Settings()
-        assert str(settings.hgnc_json_url) == test_url.strip()
-    finally:
-        if original is None:
-            del os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"]
-        else:
-            os.environ["COREASON_ETL_HGNC_HGNC_JSON_URL"] = original
+    settings = Settings(hgnc_json_url=test_url)
+    assert str(settings.hgnc_json_url) == test_url.strip()
