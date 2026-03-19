@@ -4,7 +4,7 @@ WITH base AS (
         approved_symbol,
         alias_symbols_raw,
         prev_symbols_raw
-    FROM {{ ref('silver_hgnc_genes') }}
+    FROM {{ ref('coreason_etl_hgnc_silver_hgnc_genes') }}
 )
 SELECT
     hgnc_id,

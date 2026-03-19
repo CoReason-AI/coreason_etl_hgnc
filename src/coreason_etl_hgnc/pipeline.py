@@ -19,7 +19,7 @@ from coreason_etl_hgnc.utils.logger import logger
 
 
 @dlt.resource(  # type: ignore[misc, unused-ignore]
-    name="bronze_hgnc_genes_raw",
+    name="coreason_etl_hgnc_bronze_hgnc_genes_raw",
     write_disposition="replace",
 )
 def hgnc_resource() -> Any:
@@ -48,7 +48,7 @@ def hgnc_source() -> Any:
 
 def run_pipeline(
     destination: str | Any = "postgres",
-    dataset_name: str = "bronze_hgnc",
+    dataset_name: str = "bronze",
 ) -> Any:
     """Creates and runs the dlt pipeline for HGNC genes ingestion."""
     pipeline = dlt.pipeline(
