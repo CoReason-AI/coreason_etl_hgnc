@@ -1,0 +1,41 @@
+{{ config(pre_hook='CREATE EXTENSION IF NOT EXISTS "uuid-ossp";') }}
+
+WITH constants AS (
+    SELECT '106ebc37-142c-47db-a228-db629f1d07c0'::uuid AS NAMESPACE_HGNC
+),
+raw AS (
+    SELECT
+        ingestion_ts,
+        raw_data
+    FROM {{ source('bronze', 'coreason_etl_hgnc_bronze_hgnc_genes_raw') }}
+)
+SELECT
+    uuid_generate_v5(constants.NAMESPACE_HGNC, raw_data->>'hgnc_id') AS coreason_id,
+    raw_data->>'hgnc_id' AS hgnc_id,
+    raw_data->>'symbol' AS approved_symbol,
+    raw_data->>'name' AS approved_name,
+    raw_data->>'locus_type' AS locus_type,
+    raw_data->>'ensembl_gene_id' AS ensembl_id,
+    raw_data->>'entrez_id' AS ncbi_entrez_id,
+    
+    -- 10 New Fields Added from Bronze
+    raw_data->>'status' AS status,
+    raw_data->>'location' AS location,
+    raw_data->'prev_symbol' AS prev_symbols_raw,
+    raw_data->'prev_name' AS prev_names_raw,
+    raw_data->'alias_symbol' AS alias_symbols_raw,
+    raw_data->'gene_group' AS gene_groups_raw,
+    raw_data->'refseq_accession' AS refseq_accessions_raw,
+    raw_data->'ena' AS ena_raw,
+    raw_data->'imgt' AS imgt_raw,
+    raw_data->'agr' AS agr_raw,
+    raw_data->'pseudogene.org' AS pseudogene_org_raw,
+    
+    -- Retained for cleaning in Gold layer
+    raw_data->'uniprot_ids' AS uniprot_ids_raw,
+    raw_data->'omim_id' AS omim_ids_raw,
+    
+    md5(raw_data::text) AS content_hash,
+    ingestion_ts
+FROM raw
+CROSS JOIN constants

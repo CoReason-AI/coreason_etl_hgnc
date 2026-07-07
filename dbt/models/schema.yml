@@ -1,0 +1,80 @@
+version: 2
+
+sources:
+  - name: bronze
+    schema: bronze
+    tables:
+      - name: coreason_etl_hgnc_bronze_hgnc_genes_raw
+
+models:
+  - name: coreason_etl_hgnc_silver_hgnc_genes
+    description: "Silver layer HGNC genes model with attributes extracted from raw JSON payload."
+    columns:
+      - name: coreason_id
+        description: "UUID generated from HGNC ID"
+        tests:
+          - unique
+          - not_null
+      - name: hgnc_id
+        description: "The primary HGNC ID for the gene."
+        tests:
+          - unique
+          - not_null
+      - name: approved_symbol
+        description: "The approved symbol for the gene."
+        tests:
+          - not_null
+      - name: content_hash
+        description: "MD5 hash of the raw JSON object."
+
+  - name: coreason_etl_hgnc_gold_genes_master
+    description: "Unified Gold layer master table containing all approved HGNC genes and parsed arrays."
+    columns:
+      - name: coreason_id
+        description: "UUID generated from HGNC ID"
+        tests:
+          - unique
+          - not_null
+      - name: hgnc_id
+        description: "The primary HGNC ID for the gene."
+        tests:
+          - unique
+          - not_null
+      - name: approved_symbol
+        description: "The approved symbol for the gene."
+        tests:
+          - not_null
+      - name: approved_name
+        description: "The approved name for the gene."
+      - name: status
+        description: "The approval status of the gene."
+      - name: locus_type
+        description: "The locus type of the gene."
+      - name: location
+        description: "Cytogenetic location of the gene."
+      - name: ensembl_id
+        description: "The Ensembl ID associated with the gene."
+      - name: ncbi_entrez_id
+        description: "The NCBI Entrez ID associated with the gene."
+      - name: uniprot_ids
+        description: "Cleaned array of UniProt IDs."
+      - name: omim_ids
+        description: "Cleaned array of OMIM IDs."
+      - name: alias_symbols
+        description: "Cleaned array of alias symbols."
+      - name: prev_symbols
+        description: "Cleaned array of previous symbols."
+      - name: prev_names
+        description: "Cleaned array of previous names."
+      - name: gene_groups
+        description: "Cleaned array of gene groups."
+      - name: refseq_accessions
+        description: "Cleaned array of RefSeq accessions."
+      - name: ena_ids
+        description: "Cleaned array of ENA IDs."
+      - name: imgt_ids
+        description: "Cleaned array of IMGT IDs."
+      - name: agr_ids
+        description: "Cleaned array of AGR IDs."
+      - name: pseudogene_org_ids
+        description: "Cleaned array of pseudogene.org IDs."
